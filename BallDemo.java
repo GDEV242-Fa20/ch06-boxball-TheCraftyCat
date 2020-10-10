@@ -67,6 +67,7 @@ public class BallDemo
         // draw the ground
         myCanvas.setForegroundColor(Color.BLACK);
         myCanvas.drawLine(50, ground, 550, ground);
+        
     }
     
 }
