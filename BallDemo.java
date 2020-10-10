@@ -4,8 +4,10 @@ import java.awt.Color;
  * Class BallDemo - a short demonstration showing animation with the 
  * Canvas class. 
  *
- * @author Michael Kölling and David J. Barnes
- * @version 2016.02.29
+ * @author Catherine Oldfield
+ * for RVCC GDEV242 - Fall 2020
+ * from an program by Michael Kölling and David J. Barnes
+ * @version 10-10-2020
  */
 
 public class BallDemo   
@@ -51,4 +53,20 @@ public class BallDemo
             }
         }
     }
+    
+    /**
+     * This method simulates a random number of bouncing balls
+     * @param howMany How many balls are in the box
+     */
+    public void boxBounce(int howMany)
+    {
+        int ground = 400;   // position of the ground line
+
+        myCanvas.setVisible(true);
+
+        // draw the ground
+        myCanvas.setForegroundColor(Color.BLACK);
+        myCanvas.drawLine(50, ground, 550, ground);
+    }
+    
 }
