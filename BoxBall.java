@@ -81,15 +81,20 @@ public class BoxBall
     {
         // remove from canvas at the current position
         erase();
-        
-        Random speedModifier = new Random();
-            
+           
         // compute new position
+        // effect of gravity
         ySpeed += GRAVITY;
+        
+        // motion is based on random distance moved in x and y for each
+        // tick of the simulation. change in distance is +/- 7 on x and 
+        // y axis, and cannot be either directly vertical or horizontal 
+        // motion (can't have a zero value)
+        Random speedModifier = new Random();
         yPosition += (speedModifier.nextInt(7) + 1);
         xPosition += (speedModifier.nextInt(7) + 1);
 
-        // check if it has hit the ground, ceiling or wall
+        // check if it has hit the ground, ceiling or wall & rebound
         if(yPosition >= (groundPosition))
         {
             yPosition = (int)(groundPosition);
