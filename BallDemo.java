@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
+import java.lang.Math;
 
 /**
  * Class BallDemo - a short demonstration showing animation with the 
@@ -8,7 +9,7 @@ import java.util.Random;
  *
  * @author Catherine Oldfield
  * for RVCC GDEV242 - Fall 2020
- * from an program by Michael Kölling and David J. Barnes
+ * from a program by Michael Kölling and David J. Barnes
  * @version 10-10-2020
  */
 
@@ -59,6 +60,7 @@ public class BallDemo
     
     /**
      * This method simulates a random number of bouncing balls
+     * The balls will bounce for two minutes before freezing in place
      * @param howMany How many balls are in the box
      */
     public void boxBounce(int howMany)
@@ -113,8 +115,9 @@ public class BallDemo
             index++;
         }
         
-        
-        // make them bounce
+        // make the balls bounce
+        long startTime = System.currentTimeMillis();
+        long endTime;
         boolean finished =  false;
         while (!finished) {
             myCanvas.wait(50);           // small delay
@@ -127,11 +130,13 @@ public class BallDemo
                 // re-draw the box
                 drawBox(ground, ceiling, leftWall, rightWall);
             }
-            //finished = true;
-            // stop once ball has travelled a certain distance on x axis
-            // if(ball.getXPosition() >= 550 || ball2.getXPosition() >= 550) {
-                // finished = true;
-            // }
+            endTime = System.currentTimeMillis();
+            long timeDifference = Math.subtractExact(endTime, startTime);
+            // stop the simulation after 2 minutes
+            if (timeDifference >= 120000)
+            {
+                finished = true;
+            }
         }
     }
     
