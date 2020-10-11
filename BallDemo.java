@@ -70,18 +70,10 @@ public class BallDemo
         int leftWall = 50;
         int rightWall = 550;
         int ceiling = 100;
-
-        // draw the box
-        myCanvas.setForegroundColor(Color.BLACK);
-        // ground:
-        myCanvas.drawLine(leftWall, ground, rightWall, ground);
-        // left wall:
-        myCanvas.drawLine(leftWall, ground, leftWall, ceiling);
-        // right wall:
-        myCanvas.drawLine(rightWall, ground, rightWall, ceiling);
-        // ceiling:
-        myCanvas.drawLine(leftWall, ceiling, rightWall, ceiling);
         
+        // draw the box
+        drawBox(ground, ceiling, leftWall, rightWall);
+
         //create an ArrayList of BoxBalls:
         boxBallList = new ArrayList<BoxBall>();
         int index = 0;
@@ -92,12 +84,14 @@ public class BallDemo
             
             // define parameters for the ball
             
-            // x and y start positions randomly within the box
-            int xStart = ballCreator.nextInt(rightWall - leftWall + 1);
-            int yStart = ballCreator.nextInt(ground - ceiling + 1);
+            // ball size randomly between 10 and 60 pixels:
+            int size = ballCreator.nextInt(51) + 10;
             
-            // ball size randomly between 20 and 80 pixels:
-            int size = ballCreator.nextInt(61) + 20;
+            // x and y start positions randomly within the box
+            int xRange = rightWall - leftWall - size/2;
+            int xStart = ballCreator.nextInt(xRange) + leftWall;
+            int yRange = ground - ceiling - size/2;
+            int yStart = ballCreator.nextInt(yRange) + ceiling;
             
             // ball color randomly chosen (RGB values only allowed up to
             // 230, to account for visibility on white canvas)
@@ -115,7 +109,7 @@ public class BallDemo
                 ballColor, ground, ceiling, leftWall, rightWall, 
                 myCanvas, horizontalSpeed, verticalSpeed);
             
-            //boxBallList.add(currentBall);
+            boxBallList.add(currentBall);
             index++;
         }
         
@@ -127,13 +121,39 @@ public class BallDemo
             // move each ball
             for(BoxBall ball : boxBallList)
             {
+                //ball.draw(); // for testing ball positioning
                 ball.move();
+                
+                // re-draw the box
+                drawBox(ground, ceiling, leftWall, rightWall);
             }
+            //finished = true;
             // stop once ball has travelled a certain distance on x axis
             // if(ball.getXPosition() >= 550 || ball2.getXPosition() >= 550) {
                 // finished = true;
             // }
         }
+    }
+    
+    /**
+     * This is a helper method for drawing a box on the Canvas
+     * @param bottom The y- coordinate of the bottom of the box
+     * @param top The y-coordinate of the top of the box
+     * @param left The x-coordinate of the left side of the box
+     * @param right The x-coordinate of the right side of the box
+     */
+    private void drawBox(int bottom, int top, int left, int right)
+    {
+        // draw the box
+        myCanvas.setForegroundColor(Color.BLACK);
+        // ground:
+        myCanvas.drawLine(left, bottom, right, bottom);
+        // left wall:
+        myCanvas.drawLine(left, bottom, left, top);
+        // right wall:
+        myCanvas.drawLine(right, bottom, right, top);
+        // ceiling:
+        myCanvas.drawLine(left, top, right, top);
     }
     
 }

@@ -12,9 +12,6 @@ import java.awt.geom.*;
  */
 public class BoxBall
 {
-    private static final int GRAVITY = 3;  // effect of gravity
-
-    private int ballDegradation = 2;
     private Ellipse2D.Double circle;
     private Color color;
     private int diameter;
@@ -81,39 +78,50 @@ public class BoxBall
     {
         // remove from canvas at the current position
         erase();
-           
-        // compute new position
-        // effect of gravity
-        ySpeed += GRAVITY;
         
         // motion is based on random distance moved in x and y for each
         // tick of the simulation. change in distance is +/- 7 on x and 
         // y axis, and cannot be either directly vertical or horizontal 
         // motion (can't have a zero value)
         Random speedModifier = new Random();
-        yPosition += (speedModifier.nextInt(7) + 1);
-        xPosition += (speedModifier.nextInt(7) + 1);
-
-        // check if it has hit the ground, ceiling or wall & rebound
-        if(yPosition >= (groundPosition))
+        if(xSpeed > 0)
         {
-            yPosition = (int)(groundPosition);
-            ySpeed = - ySpeed;
+            xPosition += (speedModifier.nextInt(7) + 1);
         }
-        else if(yPosition <=(ceilingPosition))
+        else
         {
-            yPosition = (int)(ceilingPosition);
-            ySpeed = - ySpeed;
+            xPosition -= (speedModifier.nextInt(7) + 1);
+        }
+        
+        if(ySpeed > 0)
+        {
+            yPosition += (speedModifier.nextInt(7) + 1);
+        }
+        else
+        {
+            yPosition -= (speedModifier.nextInt(7) + 1);
+        }
+        
+        // check if it has hit the ground, ceiling or wall & rebound
+        if(yPosition >= (groundPosition - diameter))
+        {
+            yPosition = groundPosition - diameter;
+            ySpeed = -1 * ySpeed;
+        }
+        else if(yPosition <= ceilingPosition)
+        {
+            yPosition = ceilingPosition;
+            ySpeed = -1 * ySpeed;
         }
         else if(xPosition >= (rightWallPosition - diameter))
         {
-            xPosition = (int)(rightWallPosition - diameter);
-            xSpeed = -xSpeed;
+            xPosition = rightWallPosition - diameter;
+            xSpeed = -1 * xSpeed;
         }
-        else if(xPosition <= (leftWallPosition))
+        else if(xPosition <= leftWallPosition)
         {
-            xPosition = (int)(leftWallPosition);
-            xSpeed = -xSpeed;
+            xPosition = leftWallPosition;
+            xSpeed = -1 * xSpeed;
         }
 
         // draw again at new position
