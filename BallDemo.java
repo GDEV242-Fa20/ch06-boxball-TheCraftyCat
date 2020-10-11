@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Class BallDemo - a short demonstration showing animation with the 
@@ -66,23 +67,55 @@ public class BallDemo
         
         // define the box offsets:
         int ground = 400;
-        int left = 50;
-        int right = 550;
+        int leftWall = 50;
+        int rightWall = 550;
         int ceiling = 100;
 
         // draw the box
         myCanvas.setForegroundColor(Color.BLACK);
-        myCanvas.drawLine(left, ground, right, ground);      // ground
-        myCanvas.drawLine(left, ground, left, ceiling);      // left wall
-        myCanvas.drawLine(right, ground, right, ceiling);    // right wall
-        myCanvas.drawLine(left, ceiling, right, ceiling);    // ceiling
+        // ground:
+        myCanvas.drawLine(leftWall, ground, rightWall, ground);
+        // left wall:
+        myCanvas.drawLine(leftWall, ground, leftWall, ceiling);
+        // right wall:
+        myCanvas.drawLine(rightWall, ground, rightWall, ceiling);
+        // ceiling:
+        myCanvas.drawLine(leftWall, ceiling, rightWall, ceiling);
         
         //create an ArrayList of BoxBalls:
         boxBallList = new ArrayList<BoxBall>();
         int index = 0;
         while(index < howMany)
         {
-            //create the balls
+            //create a randomizer to aid ball creation
+            Random ballCreator = new Random();
+            
+            // define parameters for the ball
+            
+            // x and y start positions randomly within the box
+            int xStart = ballCreator.nextInt(rightWall - leftWall + 1);
+            int yStart = ballCreator.nextInt(ground - ceiling + 1);
+            
+            // ball size randomly between 20 and 80 pixels:
+            int size = ballCreator.nextInt(61) + 20;
+            
+            // ball color randomly chosen (RGB values only allowed up to
+            // 230, to account for visibility on white canvas)
+            int rVal = ballCreator.nextInt(231);
+            int gVal = ballCreator.nextInt(231);
+            int bVal = ballCreator.nextInt(231);
+            
+            Color ballColor = new Color(rVal, gVal, bVal);
+            
+            // ball speeds randomly between 1 and 7:
+            int horizontalSpeed = ballCreator.nextInt(7) + 1;
+            int verticalSpeed = ballCreator.nextInt(7) + 1;
+            
+            BoxBall currentBall = new BoxBall(xStart, yStart, size, 
+                ballColor, ground, ceiling, leftWall, rightWall, 
+                myCanvas, horizontalSpeed, verticalSpeed);
+            
+            //boxBallList.add(currentBall);
             index++;
         }
         
