@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.util.ArrayList;
 
 /**
  * Class BallDemo - a short demonstration showing animation with the 
@@ -13,6 +14,7 @@ import java.awt.Color;
 public class BallDemo   
 {
     private Canvas myCanvas;
+    private ArrayList<BoxBall> boxBallList;
 
     /**
      * Create a BallDemo object. Creates a fresh canvas and makes it visible.
@@ -60,13 +62,25 @@ public class BallDemo
      */
     public void boxBounce(int howMany)
     {
-        int ground = 400;   // position of the ground line
-
         myCanvas.setVisible(true);
 
-        // draw the ground
+        // draw the box
         myCanvas.setForegroundColor(Color.BLACK);
-        myCanvas.drawLine(50, ground, 550, ground);
+        myCanvas.drawLine(50, 400, 550, 400);    // ground
+        myCanvas.drawLine(50, 400, 50, 100);     // left wall
+        myCanvas.drawLine(550, 400, 550, 100);   // right wall
+        myCanvas.drawLine(50, 100, 550, 100);    // ceiling
+        
+        //create an ArrayList of BoxBalls:
+        boxBallList = new ArrayList<BoxBall>();
+        int index = 0;
+        while(index < howMany)
+        {
+            //create the balls
+            index++;
+        }
+        
+        
         
     }
     
