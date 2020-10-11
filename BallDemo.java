@@ -63,13 +63,19 @@ public class BallDemo
     public void boxBounce(int howMany)
     {
         myCanvas.setVisible(true);
+        
+        // define the box offsets:
+        int ground = 400;
+        int left = 50;
+        int right = 550;
+        int ceiling = 100;
 
         // draw the box
         myCanvas.setForegroundColor(Color.BLACK);
-        myCanvas.drawLine(50, 400, 550, 400);    // ground
-        myCanvas.drawLine(50, 400, 50, 100);     // left wall
-        myCanvas.drawLine(550, 400, 550, 100);   // right wall
-        myCanvas.drawLine(50, 100, 550, 100);    // ceiling
+        myCanvas.drawLine(left, ground, right, ground);      // ground
+        myCanvas.drawLine(left, ground, left, ceiling);      // left wall
+        myCanvas.drawLine(right, ground, right, ceiling);    // right wall
+        myCanvas.drawLine(left, ceiling, right, ceiling);    // ceiling
         
         //create an ArrayList of BoxBalls:
         boxBallList = new ArrayList<BoxBall>();
@@ -81,7 +87,20 @@ public class BallDemo
         }
         
         
-        
+        // make them bounce
+        boolean finished =  false;
+        while (!finished) {
+            myCanvas.wait(50);           // small delay
+            // move each ball
+            for(BoxBall ball : boxBallList)
+            {
+                ball.move();
+            }
+            // stop once ball has travelled a certain distance on x axis
+            // if(ball.getXPosition() >= 550 || ball2.getXPosition() >= 550) {
+                // finished = true;
+            // }
+        }
     }
     
 }

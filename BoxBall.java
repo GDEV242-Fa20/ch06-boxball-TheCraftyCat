@@ -20,9 +20,13 @@ public class BoxBall
     private int diameter;
     private int xPosition;
     private int yPosition;
-    private final int groundPosition;      // y position of ground
+    private final int groundPosition;       // y position of ground
+    private final int ceilingPosition;      // y position of ceiling
+    private final int leftWallPosition;     // x position of left wall
+    private final int rightWallPosition;    // x position of right wall
     private Canvas canvas;
-    private int ySpeed;                   // initial downward speed
+    private int xSpeed;                   // initial horizontal speed
+    private int ySpeed;                   // initial vertical speed
 
     /**
      * Constructor for objects of class BoxBall
@@ -35,7 +39,9 @@ public class BoxBall
      * @param drawingCanvas  the canvas to draw this ball on
      */
     public BoxBall(int xPos, int yPos, int ballDiameter, Color ballColor,
-                        int groundPos, Canvas drawingCanvas, int ySpd)
+                        int groundPos, int ceilingPos, int leftPos, 
+                        int rightPos, Canvas drawingCanvas, int xSpd,
+                        int ySpd)
     {
         // initialise instance variables
         xPosition = xPos;
@@ -43,19 +49,85 @@ public class BoxBall
         color = ballColor;
         diameter = ballDiameter;
         groundPosition = groundPos;
+        ceilingPosition = ceilingPos;
+        leftWallPosition = leftPos;
+        rightWallPosition = rightPos;
         canvas = drawingCanvas;
+        xSpeed = xSpd;
         ySpeed = ySpd;
     }
 
     /**
-     * An example of a method - replace this comment with your own
-     *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
-     */
-    public int sampleMethod(int y)
+     * Draw this ball at its current position onto the canvas.
+     **/
+    public void draw()
     {
-        // put your code here
-        return 0;
+        canvas.setForegroundColor(color);
+        canvas.fillCircle(xPosition, yPosition, diameter);
     }
+
+    /**
+     * Erase this ball at its current position.
+     **/
+    public void erase()
+    {
+        canvas.eraseCircle(xPosition, yPosition, diameter);
+    }    
+
+    /**
+     * Move this ball according to its position and speed and redraw.
+     **/
+    public void move()
+    {
+        // remove from canvas at the current position
+        erase();
+        
+        Random speedModifier = new Random();
+            
+        // compute new position
+        ySpeed += GRAVITY;
+        yPosition += (speedModifier.nextInt(7) + 1);
+        xPosition += (speedModifier.nextInt(7) + 1);
+
+        // check if it has hit the ground, ceiling or wall
+        if(yPosition >= (groundPosition))
+        {
+            yPosition = (int)(groundPosition);
+            ySpeed = - ySpeed;
+        }
+        else if(yPosition <=(ceilingPosition))
+        {
+            yPosition = (int)(ceilingPosition);
+            ySpeed = - ySpeed;
+        }
+        else if(xPosition >= (rightWallPosition - diameter))
+        {
+            xPosition = (int)(rightWallPosition - diameter);
+            xSpeed = -xSpeed;
+        }
+        else if(xPosition <= (leftWallPosition))
+        {
+            xPosition = (int)(leftWallPosition);
+            xSpeed = -xSpeed;
+        }
+
+        // draw again at new position
+        draw();
+    }  
+    
+    /**
+     * return the horizontal position of this ball
+     */
+    public int getXPosition()
+    {
+        return xPosition;
+    }
+
+    /**
+     * return the vertical position of this ball
+     */
+    public int getYPosition()
+    {
+        return yPosition;
+    } 
 }
